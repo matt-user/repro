@@ -25,6 +25,11 @@ async fn get_call_frames_instance() -> (CallFramesTestContract, ContractId) {
 #[tokio::test]
 async fn can_get_second_param() {
     let (instance, _id) = get_call_frames_instance().await;
-    let result = instance.get_second_param().call().await.unwrap();
-    assert_eq!(result.value, 0);
+    let expected_struct = TestStruct {
+        value_0: 42,
+        value_1: true,
+    };
+    let expected_b256 = "0x1111111111111111111111111111111111111111111111111111111111111111";
+    let result = instance.get_second_param_multiple_params2(100, expected_struct, expected_b256).call().await.unwrap();
+    assert_eq!(result.value, (100, expected_struct, expected_b256));
 }
