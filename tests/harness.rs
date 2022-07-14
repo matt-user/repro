@@ -26,10 +26,9 @@ async fn get_call_frames_instance() -> (CallFramesTestContract, ContractId) {
 async fn can_get_second_param() {
     let (instance, _id) = get_call_frames_instance().await;
     let expected_struct = TestStruct {
-        value_0: 42,
-        value_1: true,
+        value: 100,
     };
-    let expected_b256 = "0x1111111111111111111111111111111111111111111111111111111111111111";
-    let result = instance.get_second_param_multiple_params2(100, expected_struct, expected_b256).call().await.unwrap();
-    assert_eq!(result.value, (100, expected_struct, expected_b256));
+    let expected_b256 = [0; 32];
+    let result = instance.dummy(expected_struct, expected_b256).call().await.unwrap();
+    assert_eq!(result.value, (expected_struct, expected_b256));
 }
